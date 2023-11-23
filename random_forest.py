@@ -26,5 +26,5 @@ y_pred = rf_model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f'Accuracy: {accuracy}')
 
-# Other evaluation metrics
+# Classification metric
 print(classification_report(y_test, y_pred))
