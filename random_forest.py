@@ -4,7 +4,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 
 # Assuming your dataset is in a CSV file
-df = pd.read_csv('your_dataset.csv')
+df = pd.read_csv('/Users/meeps360/cs158-final-project/day_approach_maskedID_timeseries.csv')
 
 # Example: Handle missing values by filling with the mean
 # df = df.fillna(df.mean())
