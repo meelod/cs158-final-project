@@ -7,13 +7,13 @@ from sklearn.metrics import accuracy_score, classification_report
 df = pd.read_csv('your_dataset.csv')
 
 # Example: Handle missing values by filling with the mean
-df = df.fillna(df.mean())
+# df = df.fillna(df.mean())
 
 # Example: Convert categorical variables to numerical using one-hot encoding
-df = pd.get_dummies(df)
+# df = pd.get_dummies(df)
 
-X = df.drop('target_column', axis=1)  # Features
-y = df['target_column']  # Target variable
+# X = df.drop('target_column', axis=1)  # Features
+# y = df['target_column']  # Target variable
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
