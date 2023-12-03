@@ -12,11 +12,11 @@ injured_samples = df[df['injury'] == 1]
 uninjured_samples = df[df['injury'] == 0]
 
 # Use SMOTE to generate synthetic samples for the minority class
-X = df.drop(columns=['injury', 'Athlete ID', 'Date'])
+x = df.drop(columns=['injury', 'Athlete ID', 'Date'])
 y = df['injury']
 
 smote = SMOTE(random_state=42)
-X_resampled, y_resampled = smote.fit_resample(X, y)
+X_resampled, y_resampled = smote.fit_resample(x, y)
 
 # Split the resampled data
 X_train, X_test, y_train, y_test = train_test_split(X_resampled, y_resampled, test_size=0.2, random_state=42)
@@ -24,6 +24,9 @@ X_train, X_test, y_train, y_test = train_test_split(X_resampled, y_resampled, te
 # Train a model
 clf = RandomForestClassifier(n_estimators=100, random_state=42)
 clf.fit(X_train, y_train)
+
+#testing oringal dataset
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
 
 # Make predictions
 y_pred = clf.predict(X_test)
