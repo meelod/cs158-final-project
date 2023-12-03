@@ -29,7 +29,7 @@ X = balanced_df.drop(columns=['injury'])
 y = balanced_df['injury']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# # Step 4: Model Training with Grid Search
+# Model Training with Grid Search
 # param_grid = {
 #     'n_estimators': [50, 100, 150],
 #     'max_depth': [None, 10, 20],
