@@ -1,30 +1,71 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import classification_report
 
-# Assuming your dataset is in a CSV file
-df = pd.read_csv('/Users/meeps360/cs158-final-project/day_approach_maskedID_timeseries.csv')
+# Load your dataset
+df = pd.read_csv('/Users/meeps360/cs158-final-project/week_approach_maskedID_timeseries.csv')
 
-# Example: Handle missing values by filling with the mean
-# df = df.fillna(df.mean())
+# Separate the dataset into injured and uninjured groups
+injured_samples = df[df['injury'] == 1]
+uninjured_samples = df[df['injury'] == 0]
 
-# Example: Convert categorical variables to numerical using one-hot encoding
-# df = pd.get_dummies(df)
+# Randomly sample half of the uninjured group
+uninjured_samples_subset = uninjured_samples.sample(n=len(injured_samples), random_state=42)
 
-# X = df.drop('target_column', axis=1)  # Features
-# y = df['target_column']  # Target variable
+# Concatenate the injured and uninjured subsets
+balanced_df = pd.concat([injured_samples, uninjured_samples_subset])
 
+# Shuffle the rows to randomize the order
+balanced_df = balanced_df.sample(frac=1, random_state=42).reset_index(drop=True)
+
+# Now, balanced_df is a DataFrame with equal representation of both classes
+
+# Drop unnecessary columns
+df = balanced_df.drop(columns=['Athlete ID', 'Date'])
+
+# Split the data
+X = balanced_df.drop(columns=['injury'])
+y = balanced_df['injury']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
-rf_model.fit(X_train, y_train)
+# # Step 4: Model Training with Grid Search
+# param_grid = {
+#     'n_estimators': [50, 100, 150],
+#     'max_depth': [None, 10, 20],
+#     'min_samples_split': [2, 5, 10],
+#     'min_samples_leaf': [1, 2, 4],
+#     'max_features': ['auto', 'sqrt', 'log2'],
+#     # Add other parameters to be tuned
+# }
 
-y_pred = rf_model.predict(X_test)
+# clf = RandomForestClassifier(random_state=42)
 
-# Evaluate accuracy
-accuracy = accuracy_score(y_test, y_pred)
-print(f'Accuracy: {accuracy}')
+# grid_search = GridSearchCV(clf, param_grid, cv=5, scoring='accuracy')
+# grid_search.fit(X_train, y_train)
 
-# Classification metric
+# # Get the best parameters
+# best_params = grid_search.best_params_
+# print(f"Best Parameters: {best_params}")
+
+# Train a model
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+clf.fit(X_train, y_train)
+
+# Make predictions
+y_pred = clf.predict(X_test)
+
+# Evaluate the model
 print(classification_report(y_test, y_pred))
+
+
+#notes:
+# When i first started writing this code and have what i have above
+# there is an issue where the model is not predicting the injuries. My guess
+# is because there is not enough data that show when an injury occurs.
+
+# Now I will try to reduce the data so that half is injuries and half is not injuries
+
+# after doing that, i am now getting an accuracy of 66% that predicts if a runner is going to be injured or not
+
+# now i will try creating synthetic data or duplicates so that we do not remove most of the data
