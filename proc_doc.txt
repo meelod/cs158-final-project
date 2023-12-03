@@ -1,0 +1,12 @@
+notes:
+When i first started writing this code and have what i have above
+there is an issue where the model is not predicting the injuries. My guess
+is because there is not enough data that show when an injury occurs.
+
+Now I will try to reduce the data so that half is injuries and half is not injuries
+
+after doing that, i am now getting an accuracy of 66% that predicts if a runner is going to be injured or not
+
+now i will try creating synthetic data or duplicates so that we do not remove most of the data
+
+After using synthetic data
