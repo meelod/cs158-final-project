@@ -9,4 +9,6 @@ after doing that, i am now getting an accuracy of 66% that predicts if a runner 
 
 now i will try creating synthetic data or duplicates so that we do not remove most of the data
 
-After using synthetic data
+After using synthetic data, i found that my accuracy is 99%, which is too accurate.
+Right now, I am trying to figure out why it is that accuract and understand if I am doing something wrong
+and not use synthetic data.
